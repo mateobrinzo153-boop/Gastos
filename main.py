@@ -1,6 +1,7 @@
+import almacenamiento
 import gastos
 
-gastos.cargar_gastos()   
+almacenamiento.cargar_gastos()   
 gastos.ver_gastos()
 
 opcion = ""

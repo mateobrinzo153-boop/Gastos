@@ -1,6 +1,6 @@
-import json
+import almacenamiento
 
-gastos = []
+gastos = almacenamiento.cargar_gastos()
 
 def agregar_gasto():
     nombre = input("Inserte el nombre del gasto: ")
@@ -39,7 +39,7 @@ def agregar_gasto():
     }
 
     gastos.append(gasto)
-    guardar_gastos()
+    almacenamiento.guardar_gastos(gastos)
 
 def ver_gastos():
     if not gastos:
@@ -63,7 +63,7 @@ def eliminar_gasto():
                 respuesta = input().lower().strip()
             if respuesta == "s":
                 gastos.remove(gasto)
-                guardar_gastos()
+                almacenamiento.guardar_gastos(gastos)
             elif respuesta == "n":
                 print("Eliminacion cancelada.")
                 break
@@ -98,18 +98,5 @@ def gastos_por_categoria():
     else:
         print(f"Total de gastos en la categoria '{categoria}': ${total_categoria}")
 
-def guardar_gastos():
-    with open("gastos.json", "w") as archivo:
-        json.dump(gastos, archivo)
 
-def cargar_gastos():
-    global gastos
-    try:
-        with open("gastos.json", "r") as archivo:
-            gastos = json.load(archivo)
-        print("Datos de la sesión anterior:")  
-    except FileNotFoundError:
-        gastos = []    
-    except json.JSONDecodeError:
-        print("Error al cargar los gastos. El archivo está dañado.")
-        gastos = []
+
