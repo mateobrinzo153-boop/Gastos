@@ -143,7 +143,26 @@ def editar_gasto():
             return
 
 def estadisticas_gastos():
-    total_gastos = 0
+    if gastos == []:
+        print("No hay gastos registrados.")
+        return
+    suma_de_gastos = sum(gasto["monto"] for gasto in gastos)
+    print(f"Total de gastos: ${suma_de_gastos}")
+    promedio_de_gastos = suma_de_gastos / len(gastos)
+    print(f"Promedio de gastos: ${promedio_de_gastos:.2f}")
+    gasto_mas_alto = max(gastos, key=lambda x: x["monto"])
+    print(f"Gasto más alto: {gasto_mas_alto['nombre']} - ${gasto_mas_alto['monto']}")
+    gasto_mas_bajo = min(gastos, key=lambda x: x["monto"])
+    print(f"Gasto más bajo: {gasto_mas_bajo['nombre']} - ${gasto_mas_bajo['monto']}")
+    cantidad_de_gastos = len(gastos)
+    print(f"Cantidad de gastos: {cantidad_de_gastos}")
+    total_categoria = {}
     for gasto in gastos:
-        total_gastos += gasto["monto"]
-    print(f"Total de gastos: ${total_gastos}")
+        categoria = gasto["categoria"].lower().strip()
+        if categoria in total_categoria:
+            total_categoria[categoria] += gasto["monto"]
+        else:
+            total_categoria[categoria] = gasto["monto"]
+    print("Total por categoría:")
+    for categoria, total in total_categoria.items():
+        print(f"  {categoria.capitalize()}: ${total}")
