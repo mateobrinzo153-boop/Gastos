@@ -22,7 +22,12 @@ def agregar_gasto():
         print("Campo obligatorio.")
         return
 
-    fecha = input("Inserte fecha: ")
+    try:
+        fecha = input("Inserte fecha (DD-MM-YYYY): ").strip()
+        datetime.strptime(fecha, "%d-%m-%Y")
+    except ValueError:
+        print("Formato de fecha inválido. Use DD-MM-YYYY.")
+        return
 
     if not fecha.strip():
         print("Campo obligatorio.")
@@ -105,12 +110,12 @@ def filtrar_por_fecha():
         return
 
     try:
-        fecha_inicial = str(input("Ingrese la fecha inicial (YYYY-MM-DD): ")).strip()
-        fecha_final = str(input("Ingrese la fecha final (YYYY-MM-DD): ")).strip()
-        fecha_inicial = datetime.strptime(fecha_inicial, "%Y-%m-%d")
-        fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d")
+        fecha_inicial = str(input("Ingrese la fecha inicial (DD-MM-YYYY): ")).strip()
+        fecha_final = str(input("Ingrese la fecha final (DD-MM-YYYY): ")).strip()
+        fecha_inicial = datetime.strptime(fecha_inicial, "%d-%m-%Y")
+        fecha_final = datetime.strptime(fecha_final, "%d-%m-%Y")
     except ValueError:
-        print("Formato de fecha invalido. Por favor, use el formato YYYY-MM-DD.")
+        print("Formato de fecha invalido. Por favor, use el formato DD-MM-YYYY.")
         return
     if fecha_inicial > fecha_final:
         print("La fecha inicial no puede ser mayor que la fecha final.")
@@ -118,7 +123,7 @@ def filtrar_por_fecha():
 
     encontrado = False
     for gasto in gastos:
-        fecha_gasto = datetime.strptime(gasto["fecha"], "%Y-%m-%d")
+        fecha_gasto = datetime.strptime(gasto["fecha"], "%d-%m-%Y")
         if fecha_inicial <= fecha_gasto <= fecha_final:
             print(f"{gasto['nombre']} - ${gasto['monto']} - Categoria: {gasto['categoria']} - Fecha: {gasto['fecha']}")
             encontrado = True
@@ -174,16 +179,22 @@ def estadisticas_gastos():
     if gastos == []:
         print("No hay gastos registrados.")
         return
+    
     suma_de_gastos = sum(gasto["monto"] for gasto in gastos)
     print(f"Total de gastos: ${suma_de_gastos}")
+
     promedio_de_gastos = suma_de_gastos / len(gastos)
     print(f"Promedio de gastos: ${promedio_de_gastos:.2f}")
+    
     gasto_mas_alto = max(gastos, key=lambda x: x["monto"])
     print(f"Gasto más alto: {gasto_mas_alto['nombre']} - ${gasto_mas_alto['monto']}")
+    
     gasto_mas_bajo = min(gastos, key=lambda x: x["monto"])
     print(f"Gasto más bajo: {gasto_mas_bajo['nombre']} - ${gasto_mas_bajo['monto']}")
+    
     cantidad_de_gastos = len(gastos)
     print(f"Cantidad de gastos: {cantidad_de_gastos}")
+    
     total_categoria = {}
     for gasto in gastos:
         categoria = gasto["categoria"].lower().strip()
