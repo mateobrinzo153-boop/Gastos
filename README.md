@@ -83,3 +83,12 @@ Algunas mejoras posibles para futuras versiones:
 - Utilizar SQLite como base de datos.
 - Agregar tests automatizados.
 - Crear una interfaz gráfica o web.
+
+## Restante
+
+- Editar gastos
+- Agregar estadísticas
+- Filtrar gastos por fechas
+- Migrar de JSON a SQLite
+- Agregar tests automatizados
+- Crear una interfaz gráfica o web

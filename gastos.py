@@ -98,5 +98,52 @@ def gastos_por_categoria():
     else:
         print(f"Total de gastos en la categoria '{categoria}': ${total_categoria}")
 
+def editar_gasto():
+    nombre = input("Inserte el nombre del gasto: ")
+    encontrado = False
+    for gasto in gastos:
+        if gasto["nombre"].lower().strip() == nombre:
+                respuesta = input("Desea editar este gasto? (s/n)").lower().strip()
+                encontrado = True
+                while respuesta not in ["s","n"]:
+                    print("Respuesta no valida. Ingrese 's' para sí o 'n' para no.")
+                    respuesta = input().lower().strip()
+                if respuesta == "s":
+                    nuevo_nombre = input("Inserte el nuevo nombre del gasto: ").strip()
+                    if not nuevo_nombre.strip():
+                        print("Campo obligatorio.")
+                        return
+                    try:
+                        nuevo_monto = float(input("Inserte nuevo monto: "))
+                        if nuevo_monto <= 0:
+                            print("Inserte un numero mayor a 0.")
+                            return
+                        nueva_categoria = input("Inserte nueva categoria: ").lower().strip()
+                        if not nueva_categoria.strip():
+                            print("campo obligatorio.")
+                            return
+                        nueva_fecha = input("Inserte nueva fecha: ").strip()
+                        if not nueva_fecha.strip():
+                            print("campo obligatorio.")
+                            return
+                    except ValueError:
+                        print("Insertar un numero.")
+                        return
+                    gasto["nombre"] = nuevo_nombre
+                    gasto["monto"] = nuevo_monto
+                    gasto["categoria"] = nueva_categoria
+                    gasto["fecha"] = nueva_fecha
+                    print("Gasto editado exitosamente.")
+                    almacenamiento.guardar_gastos(gastos)
+                elif respuesta == "n":
+                    print("Edición cancelada.")
+                    break
+    if encontrado == False:
+            print("Gasto no encontrado.")
+            return
 
-
+def estadisticas_gastos():
+    total_gastos = 0
+    for gasto in gastos:
+        total_gastos += gasto["monto"]
+    print(f"Total de gastos: ${total_gastos}")
