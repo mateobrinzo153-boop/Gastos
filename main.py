@@ -6,7 +6,7 @@ gastos.ver_gastos()
 
 opcion = ""
 
-while opcion != "8":
+while opcion != "9":
     print("""
     ------Lista de Gastos------
     |   1. Agregar gasto      |
@@ -16,7 +16,8 @@ while opcion != "8":
     |   5. Gastos p categoria |
     |   6. Editar gasto       |
     |   7. Estadísticas       |
-    |   8. Salir              |
+    |   8. Filtrar por fecha  |
+    |   9. Salir              |
     ---------------------------
     """)
     opcion = input("Seleccione una opción: ")
@@ -35,6 +36,8 @@ while opcion != "8":
     elif opcion == "7":
         gastos.estadisticas_gastos()
     elif opcion == "8":
+        gastos.filtrar_por_fecha()
+    elif opcion == "9":
         print("¡Hasta luego!")
         break 
     else:

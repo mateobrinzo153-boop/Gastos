@@ -1,4 +1,5 @@
 import almacenamiento
+from datetime import datetime
 
 gastos = almacenamiento.cargar_gastos()
 
@@ -97,6 +98,33 @@ def gastos_por_categoria():
         print("No hay gastos en esta categoria")
     else:
         print(f"Total de gastos en la categoria '{categoria}': ${total_categoria}")
+
+def filtrar_por_fecha(): 
+    if not gastos:
+        print("No hay gastos registrados.")
+        return
+
+    try:
+        fecha_inicial = str(input("Ingrese la fecha inicial (YYYY-MM-DD): ")).strip()
+        fecha_final = str(input("Ingrese la fecha final (YYYY-MM-DD): ")).strip()
+        fecha_inicial = datetime.strptime(fecha_inicial, "%Y-%m-%d")
+        fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d")
+    except ValueError:
+        print("Formato de fecha invalido. Por favor, use el formato YYYY-MM-DD.")
+        return
+    if fecha_inicial > fecha_final:
+        print("La fecha inicial no puede ser mayor que la fecha final.")
+        return
+
+    encontrado = False
+    for gasto in gastos:
+        fecha_gasto = datetime.strptime(gasto["fecha"], "%Y-%m-%d")
+        if fecha_inicial <= fecha_gasto <= fecha_final:
+            print(f"{gasto['nombre']} - ${gasto['monto']} - Categoria: {gasto['categoria']} - Fecha: {gasto['fecha']}")
+            encontrado = True
+    if not encontrado:
+        print("No hay gastos en este rango de fechas.")
+
 
 def editar_gasto():
     nombre = input("Inserte el nombre del gasto: ")
