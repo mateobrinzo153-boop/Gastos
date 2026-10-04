@@ -1,7 +1,7 @@
 import almacenamiento
 from datetime import datetime
 
-gastos = almacenamiento.cargar_gastos()
+gastos = almacenamiento.cargar_gastos(almacenamiento.conn)
 
 def agregar_gasto():
     nombre = input("Inserte el nombre del gasto: ")
@@ -38,14 +38,14 @@ def agregar_gasto():
         return
 
     gasto = {
+        "id": len(gastos) + 1,
         "nombre": nombre,
         "monto": monto,
         "categoria": categoria,
         "fecha": fecha
     }
-
     gastos.append(gasto)
-    almacenamiento.guardar_gastos(gastos)
+    almacenamiento.agregar_gasto(gasto, almacenamiento.conn)
 
 def ver_gastos():
     if not gastos:
@@ -69,7 +69,7 @@ def eliminar_gasto():
                 respuesta = input().lower().strip()
             if respuesta == "s":
                 gastos.remove(gasto)
-                almacenamiento.guardar_gastos(gastos)
+                almacenamiento.eliminar(gasto, almacenamiento.conn)
             elif respuesta == "n":
                 print("Eliminacion cancelada.")
                 break
@@ -130,7 +130,6 @@ def filtrar_por_fecha():
     if not encontrado:
         print("No hay gastos en este rango de fechas.")
 
-
 def editar_gasto():
     nombre = input("Inserte el nombre del gasto: ")
     encontrado = False
@@ -167,7 +166,7 @@ def editar_gasto():
                     gasto["categoria"] = nueva_categoria
                     gasto["fecha"] = nueva_fecha
                     print("Gasto editado exitosamente.")
-                    almacenamiento.guardar_gastos(gastos)
+                    almacenamiento.editar_gasto(gasto, almacenamiento.conn)
                 elif respuesta == "n":
                     print("Edición cancelada.")
                     break
