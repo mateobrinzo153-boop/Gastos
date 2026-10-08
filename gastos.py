@@ -5,40 +5,30 @@ gastos = almacenamiento.cargar_gastos(almacenamiento.conn)
 
 def agregar_gasto():
     nombre = input("Inserte el nombre del gasto: ")
-
-    if not nombre.strip():
-        print("Campo obligatorio.")
-        return
-
-    try:
-        monto = float(input("Monto: ").strip())
-    except ValueError:
-        print("Insertar un numero.")
-        return
-
+    monto = input("Monto: ").strip()
     categoria = input("Inserte categoria: ")
+    fecha = input("Inserte fecha (DD-MM-YYYY): ").strip()
 
-    if not categoria.strip():
-        print("Campo obligatorio.")
-        return
+    resultado = crear_gasto(nombre, monto, categoria, fecha)
+
+def crear_gasto(nombre, monto, categoria, fecha):
+    if not nombre.strip() or not categoria.strip() or not fecha.strip():
+        return False, "Todos los campos son obligatorios."
 
     try:
-        fecha = input("Inserte fecha (DD-MM-YYYY): ").strip()
-        datetime.strptime(fecha, "%d-%m-%Y")
+        monto = float(monto)
     except ValueError:
-        print("Formato de fecha inválido. Use DD-MM-YYYY.")
-        return
-
-    if not fecha.strip():
-        print("Campo obligatorio.")
-        return
+        return False, "Debes insertar un numero."
 
     if monto <= 0:
-        print("El monto debe ser mayor a 0.")
-        return
+        return False, "El monto debe ser mayor a 0."
+
+    try:
+        datetime.strptime(fecha, "%d-%m-%Y")
+    except ValueError:
+        return False, "Formato de fecha inválido. Use DD-MM-YYYY."
 
     gasto = {
-        "id": len(gastos) + 1,
         "nombre": nombre,
         "monto": monto,
         "categoria": categoria,
@@ -46,6 +36,7 @@ def agregar_gasto():
     }
     gastos.append(gasto)
     almacenamiento.agregar_gasto(gasto, almacenamiento.conn)
+    return True, "Gasto agregado correctamente."
 
 def ver_gastos():
     if not gastos:

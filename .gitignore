@@ -1,2 +1,3 @@
 __pycache__/
 gastos.json
+.pytest_cache/
