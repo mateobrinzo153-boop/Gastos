@@ -1,21 +1,19 @@
 # Gastos
 
-Aplicación de consola desarrollada en Python para registrar y administrar gastos personales.
+Aplicación de escritorio desarrollada en Python para registrar y administrar gastos personales mediante una interfaz gráfica.
 
-El proyecto permite almacenar gastos, buscarlos, eliminarlos y consultar el dinero gastado por categoría. Los datos se guardan en un archivo JSON para conservarlos entre ejecuciones.
+El proyecto permite agregar, consultar, editar y eliminar gastos, además de filtrarlos por categoría. Los datos se almacenan en una base de datos SQLite para conservarlos entre ejecuciones.
 
 ## Funcionalidades
 
 - Agregar gastos.
-- Ver todos los gastos registrados.
-- Calcular el total de gastos.
-- Buscar gastos por nombre.
-- Eliminar gastos con confirmación.
-- Buscar gastos por categoría.
-- Calcular el total gastado en una categoría.
-- Guardar los datos automáticamente en `gastos.json`.
-- Cargar los datos al iniciar el programa.
-- Manejar archivos inexistentes o JSON dañados mediante excepciones.
+- Ver los gastos registrados.
+- Editar gastos existentes.
+- Eliminar gastos.
+- Filtrar gastos por categoría.
+- Validar los datos ingresados.
+- Guardar los gastos en una base de datos SQLite.
+- Cargar los datos almacenados al iniciar la aplicación.
 
 ## Datos de cada gasto
 
@@ -29,66 +27,71 @@ Cada gasto contiene:
 ## Tecnologías utilizadas
 
 - Python 3
-- JSON
+- Tkinter
+- SQLite
+- Pytest
 - Git / GitHub
 
 ## Estructura
 
-```text
-Gastos/
-├── main.py
-├── gastos.py
-├── gastos.json
-├── .gitignore
-└── README.md
-```
+El proyecto se organiza en módulos para separar la interfaz gráfica, la lógica de los gastos y el almacenamiento de los datos.
+
+- `interfaz.py`: interfaz gráfica de la aplicación.
+- `gastos.py`: lógica y operaciones relacionadas con los gastos.
+- `almacenamiento.py`: gestión de la persistencia mediante SQLite.
+- `gastos.db`: base de datos utilizada para almacenar los gastos.
 
 ## Cómo ejecutar
 
-1. Clonar el repositorio.
-2. Abrir la carpeta del proyecto.
+1. Abrir la carpeta del proyecto.
+2. Abrir una terminal en esa ubicación.
 3. Ejecutar:
 
 ```bash
-python main.py
+python interfaz.py
+```
+
+Si el sistema utiliza `python3`, ejecutar:
+
+```bash
+python3 interfaz.py
 ```
 
 ## Persistencia de datos
 
-Los gastos se almacenan en `gastos.json`. Esto permite cerrar el programa y conservar los datos para la próxima ejecución.
+Los gastos se almacenan mediante SQLite. Esto permite cerrar la aplicación y conservar la información para la próxima ejecución.
 
-El programa también maneja situaciones en las que el archivo no existe o contiene información JSON inválida.
+La gestión de la base de datos está separada de la lógica principal para facilitar el mantenimiento del código.
+
+## Pruebas
+
+El proyecto utiliza Pytest para ejecutar pruebas automatizadas.
+
+Para ejecutar las pruebas, utilizar:
+
+```bash
+python -m pytest
+```
 
 ## Objetivo del proyecto
 
-Este proyecto fue desarrollado para practicar Python mediante un programa funcional, trabajando con:
+Este proyecto fue desarrollado para practicar Python mediante una aplicación funcional, trabajando con:
 
 - Listas y diccionarios
-- Funciones
-- Bucles y condicionales
+- Funciones y módulos
+- Programación orientada a eventos
+- Interfaces gráficas con Tkinter
 - Validación de datos
 - Manejo de excepciones
-- Módulos
-- Archivos
-- JSON
+- Bases de datos SQLite
 - Persistencia de datos
+- Pruebas automatizadas
+- Organización y mantenimiento de código
 
-## Próximas mejoras
+## Posibles mejoras futuras
 
-Algunas mejoras posibles para futuras versiones:
+- Incorporar estadísticas y resúmenes de gastos.
+- Agregar filtros por fecha.
+- Mejorar la visualización de los gastos.
+- Ampliar la cobertura de las pruebas automatizadas.
 
-- Editar gastos existentes.
-- Agregar estadísticas de gastos.
-- Filtrar por fechas.
-- Utilizar SQLite como base de datos.
-- Agregar tests automatizados.
-- Crear una interfaz gráfica o web.
-
-## Restante
-
-- Editar gastos
-- Agregar estadísticas
-- Filtrar gastos por fechas
-- Migrar de JSON a SQLite
-- Agregar tests automatizados
-- Crear una interfaz gráfica o web
